@@ -42,7 +42,16 @@
 
 <script>
 async function fetchGitHubProjects() {
-    const response = await fetch('https://api.github.com/users/dictino67/repos');
+    // ⚠️ VOTRE PERSONAL ACCESS TOKEN pour accéder aux projets privés
+    // Obtenez-le ici: https://github.com/settings/tokens/new (option "repo")
+    const PERSONAL_TOKEN = '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';
+    
+    const response = await fetch('https://api.github.com/users/dictino67/repos', {
+        headers: {
+            'Authorization': `Bearer ${PERSONAL_TOKEN}`,
+            'Accept': 'application/vnd.github.v3+json'
+        }
+    });
     if (!response.ok) throw new Error('Erreur API GitHub');
     const repos = await response.json();
     console.log(repos.length + ' projets récupérés de l\'API GitHub');
