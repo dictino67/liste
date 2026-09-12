@@ -58,10 +58,10 @@ const agentDataMap = {
 async function checkHasAgentMd(repoName) {
     try {
         const response = await fetch(`https://api.github.com/repos/dictino67/${repoName}/contents/AGENT.md`);
-        return response.ok; // true si AGENT.md existe, false sinon
+        return { repoName, hasAgent: response.ok };
     } catch (error) {
         console.error('Erreur vérification AGENT.md pour', repoName);
-        return false;
+        return { repoName, hasAgent: false };
     }
 }
 
@@ -69,12 +69,18 @@ async function checkHasAgentMd(repoName) {
 async function displayProjects(repos) {
     const container = document.getElementById('projectsListContainer');
     const loadingDiv = document.getElementById('loading');
+    
+    // ÉTAPE 1: Vérifier TOUS les dépôts en PARALLÈLE (plus rapide !)
+    console.log('🔍 Vérification des fichiers AGENT.md pour', repos.length, 'dépôts...');
+    const agentChecks = await Promise.all(repos.map(repo => checkHasAgentMd(repo.name)));
+    
     if (container) {
         loadingDiv.style.display = 'none';
         
-        for (const repo of repos) {
-            // VRAIE DÉTECTION en temps réel via l'API GitHub
-            const hasAgent = await checkHasAgentMd(repo.name);
+        // ÉTAPE 2: Afficher les projets avec les résultats de la vérification
+        repos.forEach(repo => {
+            const result = agentChecks.find(r => r.repoName === repo.name);
+            const hasAgent = result?.hasAgent || false;
             
             const item = document.createElement('div');
             item.className = 'project-item-card';
