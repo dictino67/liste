@@ -84,15 +84,53 @@ function displayProjects(repos) {
 function showAgentPopup(project, agentData) {
     const featuresHTML = agentData.features ? '<h3 style="margin:15px 0 10px 0;color:#2563eb;">✨ Fonctionnalités</h3><ul style="line-height:1.8;">' + agentData.features.map(f => `<li>${f}</li>`).join('') + '</ul>' : '';
     const stackHTML = agentData.stack ? '<h3 style="margin:15px 0 10px 0;color:#2563eb;">🛠️ Stack</h3><div style="display:grid;gap:8px;">' + Object.entries(agentData.stack).map(([tech, desc]) => `<div style="background:#f1f3f4;border-left:3px solid #2563eb;padding:10px;"><strong>${tech}:</strong> ${desc}</div>`).join('') + '</div>' : '';
+    
+    // Contenu du fichier AGENT.md réel - texte complet
+    const agentMdContent = `# 🤖 Liste des Projets GitHub - dictino67
+
+## 📝 Description
+Application web interactive qui liste et affiche tous les projets GitHub avec recherche dynamique. Elle se connecte directement à l'API GitHub pour récupérer les repositories en temps réel.
+
+## ✨ Fonctionnalités
+- Affichage des repositories depuis l'API GitHub en temps réel
+- Recherche dynamique par nom/description
+- Détection automatique des fichiers AGENT.md
+- Bouton direct vers chaque projet sur GitHub
+- Filtre par visibilité (Tous/Publics/Privés)
+- Indicateurs de visibilité clairs pour chaque projet
+
+## 🛠️ Stack Technique
+| Technologie | Description |
+|------------|-------------|
+| HTML5 | Structure sémantique moderne |
+| CSS3 | Design responsive et animations |
+| JavaScript ES6+ | Fetch API, DOM manipulation |
+
+## 🔧 Utilisation
+1. Ouvrez la page index.html dans votre navigateur
+2. Les projets sont chargés automatiquement depuis l'API GitHub
+3. Utilisez la barre de recherche pour filtrer par nom ou description
+4. Cliquez sur "🔗 Voir sur GitHub" pour accéder au repository
+5. Pour les projets avec AGENT.md, cliquez sur "+ Voir AGENT.md"
+
+## 🌐 API Utilisée
+- **GitHub REST API**: \`https://api.github.com/users/dictino67/repos\`
+- Récupération en temps réel de tous les repositories publics et privés
+
+## 💡 Notes
+- L'API GitHub permet une mise à jour automatique sans modification du code
+- Le contenu s'affiche dynamiquement selon les droits d'accès (public/privé)
+- La page supporte jusqu'à 100 projets simultanément`;
+
     document.body.innerHTML = `
         <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f6f8fa;min-height:100vh;display:flex;align-items:center;justify-content:center;">
-            <div style="max-width:600px;margin:40px auto;padding:30px;background:white;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);">
-                <h1 style="color:#2563eb;margin-bottom:10px;font-size:28px;">${agentData.title}</h1>
+            <div style="max-width:700px;margin:20px auto;padding:40px;background:white;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);">
+                <h1 style="color:#2563eb;margin-bottom:10px;font-size:32px;">📄 Contenu de AGENT.md</h1>
                 <p style="color:#666;margin-bottom:20px;"><strong>Projet:</strong> ${agentData.project || project.name}</p>
-                <h3 style="margin:20px 0 10px 0;color:#333;">📝 Description</h3>
-                <p style="line-height:1.6;color:#444;background:#f8f9fa;padding:15px;border-radius:8px;margin-bottom:20px;">${agentData.description}</p>
-                ${featuresHTML}${stackHTML}
-                <button onclick="window.location.href='index.html'" style="margin-top:25px;width:100%;padding:12px 20px;background:#2563eb;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;font-weight:bold;">Fermer</button>
+                <div style="background:#f8f9fa;border-left:4px solid #2563eb;padding:20px;border-radius:8px;overflow-x:auto;">
+                    <pre style="white-space:pre-wrap;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.6;color:#24292e;margin:0;">${agentMdContent}</pre>
+                </div>
+                <button onclick="window.location.href='index.html'" style="margin-top:20px;width:100%;padding:12px 20px;background:#2563eb;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;font-weight:bold;">Fermer</button>
             </div>
         </div>
     `;
