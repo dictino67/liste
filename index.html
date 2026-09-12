@@ -40,12 +40,10 @@
     </div>
 
 
+<script src=".env"></script>
+
 <script>
 async function fetchGitHubProjects() {
-    // ⚠️ VOTRE PERSONAL ACCESS TOKEN pour accéder aux projets privés
-    // Obtenez-le ici: https://github.com/settings/tokens/new (option "repo")
-    const PERSONAL_TOKEN = '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';
-    
     const response = await fetch('https://api.github.com/users/dictino67/repos', {
         headers: {
             'Authorization': `Bearer ${PERSONAL_TOKEN}`,
